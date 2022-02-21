@@ -6,7 +6,7 @@ import cpp.Lib;
 import neko.Lib;
 #end
 
-#if (android && openfl)
+#if ((android || desktop) && openfl)
 	#if (openfl < "4.0.0")
 	import openfl.utils.JNI;
 	#else
@@ -17,6 +17,7 @@ import neko.Lib;
 #if ios
 import extension.webview.WebView;
 #end
+
 
 
 class YouTubePlayer {
@@ -121,7 +122,7 @@ class YouTubePlayer {
 	</html>";
 
 	static public function init(developerKey:String){
-		#if android
+		#if (android || desktop)
 		try{
 			initialize = JNI.createStaticMethod (YOUTUBEPLAYER_PATH, "initialize", "(Ljava/lang/String;)V");
 			loadVideo = JNI.createStaticMethod (YOUTUBEPLAYER_PATH, "loadVideo", "(Ljava/lang/String;Z)V");
@@ -151,7 +152,6 @@ class YouTubePlayer {
     static function loadVideoFromHtml(videoID:String, fullscreen:Bool){
     	#if ios
     	WebView.openHtml(getHtml(videoID), true);
-    	#end
     }
 
     static function getHtml(videoID:String):String{
