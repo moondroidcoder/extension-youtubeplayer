@@ -14,9 +14,9 @@ import neko.Lib;
 	#end
 #end
 
-#if ios
-import extension.webview.WebView;
-#end
+//#if ios
+import extension.youtubeplayer.WebView;
+//#end
 
 
 
@@ -122,7 +122,7 @@ class YouTubePlayer {
 	</html>";
 
 	static public function init(developerKey:String){
-		#if (android || desktop)
+		#if (android)
 		try{
 			initialize = JNI.createStaticMethod (YOUTUBEPLAYER_PATH, "initialize", "(Ljava/lang/String;)V");
 			loadVideo = JNI.createStaticMethod (YOUTUBEPLAYER_PATH, "loadVideo", "(Ljava/lang/String;Z)V");
@@ -130,7 +130,7 @@ class YouTubePlayer {
 		} catch(error:Dynamic){
 			trace("error: "+Std.string(error));
 		}
-		#elseif ios
+		#elseif desktop
 		try{
 			WebView.onClose = onClose;
 			WebView.onURLChanging = onURLChanging;
@@ -150,8 +150,9 @@ class YouTubePlayer {
     }
 
     static function loadVideoFromHtml(videoID:String, fullscreen:Bool){
-    	#if ios
+    	//#if ios
     	WebView.openHtml(getHtml(videoID), true);
+		//#end
     }
 
     static function getHtml(videoID:String):String{
